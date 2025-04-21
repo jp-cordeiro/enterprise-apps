@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaService } from './prisma.service';
-// import { ConfigModule } from '@nestjs/config';
+import { ContentManagementService } from './core/services/content-management.service';
+import { ContentController } from './http/rest/controllers/content.controller';
+import { MediaPlayerService } from './core/services/media-player.service';
+import { PrismaService } from './persistence/prisma/prisma.service';
 
 @Module({
-  imports: [
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    // }),
-  ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  imports: [],
+  controllers: [ContentController],
+  providers: [ContentManagementService, MediaPlayerService, PrismaService],
 })
 export class AppModule {}

@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { PrismaService } from '@src/prisma.service';
 import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
+import { PrismaService } from '@src/persistence/prisma/prisma.service';
 
-describe('VideoController (e2e)', () => {
+describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
   let prismaService: PrismaService;
@@ -37,7 +37,7 @@ describe('VideoController (e2e)', () => {
     rmSync('./uploads', { recursive: true, force: true });
   });
 
-  describe('/video (POST)', () => {
+  describe('/content/video (POST)', () => {
     it('should upload a video ', async () => {
       const video = {
         title: 'Test Video',
@@ -49,7 +49,7 @@ describe('VideoController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/video')
+        .post('/content/video ')
         .attach('video', './test/fixtures/sample.mp4')
         .attach('thumbnail', './test/fixtures/sample.jpeg')
         .field('title', video.title)
@@ -78,7 +78,7 @@ describe('VideoController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/video')
+        .post('/content/video ')
         .attach('video', './test/fixtures/sample.mp4')
         .field('title', video.title)
         .field('description', video.description)
@@ -103,7 +103,7 @@ describe('VideoController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/video')
+        .post('/content/video ')
         .attach('video', './test/fixtures/sample.mp3')
         .attach('thumbnail', './test/fixtures/sample.jpeg')
         .field('title', video.title)
@@ -123,7 +123,7 @@ describe('VideoController (e2e)', () => {
   describe('stream/:videoId', () => {
     it('should stream a video', async () => {
       const { body: sampleVideo } = await request(app.getHttpServer())
-        .post('/video')
+        .post('/content/video ')
         .attach('video', './test/fixtures/sample.mp4')
         .attach('thumbnail', './test/fixtures/sample.jpeg')
         .field('title', 'Test Video')
@@ -133,7 +133,7 @@ describe('VideoController (e2e)', () => {
       const range = `bytes=0-${fileSize - 1}`;
 
       const response = await request(app.getHttpServer())
-        .get(`/stream/${sampleVideo.id}`)
+        .get(`/content/stream/${sampleVideo.id}`)
         .set('Range', range)
         .expect(HttpStatus.PARTIAL_CONTENT);
 
@@ -147,7 +147,7 @@ describe('VideoController (e2e)', () => {
 
     it('should returns 404 if the video is not found', async () => {
       await request(app.getHttpServer())
-        .get('/stream/invalid_id')
+        .get('/content/stream/invalid_id')
         .expect(HttpStatus.NOT_FOUND);
     });
   });
