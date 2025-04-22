@@ -22,6 +22,8 @@ import { createReadStream, statSync } from 'fs';
 import type { Request, Response } from 'express';
 import { ContentManagementService } from '@src/core/services/content-management.service';
 import { MediaPlayerService } from '@src/core/services/media-player.service';
+import { CreateVideoResponseDto } from '../dtos/response/create-video-response.dto';
+import { RestResponseInterceptor } from '../interceptors/rest-response.interceptor';
 
 @Controller('content')
 export class ContentController {
@@ -63,12 +65,13 @@ export class ContentController {
       },
     ),
   )
+  @UseInterceptors(new RestResponseInterceptor(CreateVideoResponseDto))
   async uploadVideo(
     @Req() _req: Request,
     @Body() contentData: { title: string; description: string },
     @UploadedFiles()
     files: { video?: Express.Multer.File[]; thumbnail?: Express.Multer.File[] },
-  ): Promise<any> {
+  ): Promise<CreateVideoResponseDto> {
     const videoFile = files.video?.[0];
     const thumbnailFile = files.thumbnail?.[0];
     if (!videoFile || !thumbnailFile) {
@@ -76,7 +79,7 @@ export class ContentController {
         'Both video and thumbnail files are required',
       );
     }
-    const videoStored = await this.contentManagementService.createContent({
+    const videoStored = this.contentManagementService.createContent({
       title: contentData.title,
       description: contentData.description,
       url: videoFile.path,
