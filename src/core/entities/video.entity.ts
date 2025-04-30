@@ -8,13 +8,13 @@ export type NewVideoEntity = Omit<
 
 export interface VideoEntityProps extends BaseEntityProps {
   url: string;
-  sizenInKb: number;
+  sizeInKb: number;
   duration: number;
 }
 
 export class VideoEntity extends BaseEntity {
   private url: VideoEntityProps['url'];
-  private sizenInKb: VideoEntityProps['sizenInKb'];
+  private sizeInKb: VideoEntityProps['sizeInKb'];
   private duration: VideoEntityProps['duration'];
 
   private constructor(private readonly data: VideoEntityProps) {
@@ -25,7 +25,7 @@ export class VideoEntity extends BaseEntity {
     return new VideoEntity({
       id,
       url: data.url,
-      sizenInKb: data.sizenInKb,
+      sizeInKb: data.sizeInKb,
       duration: data.duration,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -36,7 +36,7 @@ export class VideoEntity extends BaseEntity {
     return new VideoEntity({
       id: data.id,
       url: data.url,
-      sizenInKb: data.sizenInKb,
+      sizeInKb: data.sizeInKb,
       duration: data.duration,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -57,17 +57,17 @@ export class VideoEntity extends BaseEntity {
     return this.url;
   }
   getSizeInKb(): number {
-    return this.sizenInKb;
+    return this.sizeInKb;
   }
   getDuration(): number {
     return this.duration;
   }
 
-  serialize(): Record<string, unknown> {
+  serialize() {
     return {
       id: this.id,
       url: this.url,
-      sizenInKb: this.sizenInKb,
+      sizeInKb: this.sizeInKb,
       duration: this.duration,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
