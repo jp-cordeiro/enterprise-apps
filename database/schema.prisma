@@ -82,7 +82,7 @@ model Episode {
   Video       Video?
   Thumbnail   Thumbnail? @relation(fields: [thumbnailId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_6c57a6d8be1b8001ee31093ee99")
   TvShow      TvShow?    @relation(fields: [tvShowId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_bc417590af57a49dc42ce4ba038")
-	@@map("episode")
+	@@map("Episode")
 }
 
 enum Content_type_enum {

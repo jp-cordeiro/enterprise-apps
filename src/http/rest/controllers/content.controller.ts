@@ -71,7 +71,7 @@ export class ContentController {
     @Body() contentData: { title: string; description: string },
     @UploadedFiles()
     files: { video?: Express.Multer.File[]; thumbnail?: Express.Multer.File[] },
-  ): Promise<CreateVideoResponseDto> {
+  ): Promise<any> {
     const videoFile = files.video?.[0];
     const thumbnailFile = files.thumbnail?.[0];
     if (!videoFile || !thumbnailFile) {
