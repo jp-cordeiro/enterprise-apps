@@ -40,8 +40,8 @@ model Movie {
   deletedAt   DateTime?  @db.Timestamp(6)
   contentId   String?    @unique(map: "REL_c155b5944bdd1e260a4ae79bc8") @db.Uuid
   thumbnailId String?    @unique(map: "UQ_a20dc7d8915f1caf6079301b10e") @db.Uuid
-  Thumbnail   Thumbnail? @relation(fields: [thumbnailId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_a20dc7d8915f1caf6079301b10e")
-  Content     Content?   @relation(fields: [contentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_c155b5944bdd1e260a4ae79bc82")
+  Thumbnail   Thumbnail? @relation(fields: [thumbnailId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "FK_a20dc7d8915f1caf6079301b10e")
+  Content     Content?   @relation(fields: [contentId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "FK_c155b5944bdd1e260a4ae79bc82")
   Video       Video?
 }
 

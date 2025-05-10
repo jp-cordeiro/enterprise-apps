@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsString, IsUUID } from 'class-validator';
+import { IsDate, IsString, IsUUID } from 'class-validator';
 
 export class CreateVideoResponseDto {
   @IsUUID()
@@ -18,15 +18,11 @@ export class CreateVideoResponseDto {
   @Expose()
   url: string;
 
-  @IsString()
-  @Expose()
-  duration: number;
-
-  @IsString()
+  @IsDate()
   @Expose()
   createdAt: Date;
 
-  @IsString()
+  @IsDate()
   @Expose()
   updatedAt: Date;
 }
