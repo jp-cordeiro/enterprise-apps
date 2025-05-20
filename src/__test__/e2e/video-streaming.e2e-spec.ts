@@ -3,14 +3,12 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
-import { PrismaService } from '@src/persistence/prisma/prisma.service';
 import { ContentManagementService } from '@src/core/services/content-management.service';
 import { randomUUID } from 'crypto';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
-  let prismaService: PrismaService;
   let contentManagementService: ContentManagementService;
   const fileSize = 1430145;
 
@@ -22,7 +20,6 @@ describe('ContentController (e2e)', () => {
     app = module.createNestApplication();
     await app.init();
 
-    prismaService = module.get<PrismaService>(PrismaService);
     contentManagementService = module.get<ContentManagementService>(
       ContentManagementService,
     );
@@ -32,10 +29,6 @@ describe('ContentController (e2e)', () => {
     jest
       .useFakeTimers({ advanceTimers: true })
       .setSystemTime(new Date('2025-01-01'));
-  });
-
-  afterEach(async () => {
-    await prismaService.video.deleteMany();
   });
 
   afterAll(async () => {

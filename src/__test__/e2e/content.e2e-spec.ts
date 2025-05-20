@@ -3,12 +3,10 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
-import { PrismaService } from '@src/persistence/prisma/prisma.service';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
-  let prismaService: PrismaService;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -17,18 +15,12 @@ describe('ContentController (e2e)', () => {
 
     app = module.createNestApplication();
     await app.init();
-
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   beforeEach(async () => {
     jest
       .useFakeTimers({ advanceTimers: true })
       .setSystemTime(new Date('2025-01-01'));
-  });
-
-  afterEach(async () => {
-    await prismaService.video.deleteMany();
   });
 
   afterAll(async () => {
