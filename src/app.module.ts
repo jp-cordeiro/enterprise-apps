@@ -5,10 +5,10 @@ import { MediaPlayerService } from './core/services/media-player.service';
 import { ContentRepository } from './persistence/repositories/content.repository';
 import { VideoRepository } from './persistence/repositories/video.repository';
 import { MediaPlayerController } from './http/rest/controllers/media-player.controller';
-import { ConfigModule } from './infra/module/config/config.module';
+import { PersistenceModule } from './persistence/persistence.module';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [PersistenceModule.forRoot()],
   controllers: [ContentController, MediaPlayerController],
   providers: [
     ContentManagementService,

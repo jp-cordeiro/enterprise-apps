@@ -3,10 +3,12 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
+import { VideoRepository } from '@src/persistence/repositories/video.repository';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
+  let videoRepository: VideoRepository;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -15,6 +17,8 @@ describe('ContentController (e2e)', () => {
 
     app = module.createNestApplication();
     await app.init();
+
+    videoRepository = app.get<VideoRepository>(VideoRepository);
   });
 
   beforeEach(async () => {
@@ -26,6 +30,10 @@ describe('ContentController (e2e)', () => {
   afterAll(async () => {
     module.close();
     rmSync('./uploads', { recursive: true, force: true });
+  });
+
+  afterEach(async () => {
+    await videoRepository.deleteAll();
   });
 
   describe('/content/video (POST)', () => {

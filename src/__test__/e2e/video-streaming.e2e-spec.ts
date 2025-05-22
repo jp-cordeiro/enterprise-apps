@@ -5,11 +5,13 @@ import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
 import { ContentManagementService } from '@src/core/services/content-management.service';
 import { randomUUID } from 'crypto';
+import { VideoRepository } from '@src/persistence/repositories/video.repository';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
   let contentManagementService: ContentManagementService;
+  let videoRepository: VideoRepository;
   const fileSize = 1430145;
 
   beforeAll(async () => {
@@ -23,12 +25,17 @@ describe('ContentController (e2e)', () => {
     contentManagementService = module.get<ContentManagementService>(
       ContentManagementService,
     );
+    videoRepository = app.get<VideoRepository>(VideoRepository);
   });
 
   beforeEach(async () => {
     jest
       .useFakeTimers({ advanceTimers: true })
       .setSystemTime(new Date('2025-01-01'));
+  });
+
+  afterEach(async () => {
+    await videoRepository.deleteAll();
   });
 
   afterAll(async () => {
