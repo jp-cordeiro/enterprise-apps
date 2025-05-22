@@ -10,7 +10,7 @@
         "${relativeFile}", // This will use the currently open file in VSCode
         "--runInBand",
         "--config",
-        "../test/jest.e2e.ts",
+        "./test/jest.e2e.ts",
         "--detectOpenHandles"
       ],
       "console": "integratedTerminal",
