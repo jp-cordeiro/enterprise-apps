@@ -4,11 +4,15 @@ import request from 'supertest';
 import { AppModule } from '@src/app.module';
 import { rmSync } from 'fs';
 import { VideoRepository } from '@src/persistence/repositories/video.repository';
+import { ContentRepository } from '@src/persistence/repositories/content.repository';
+import { MovieRepository } from '@src/persistence/repositories/movie.repository';
 
-describe('ContentController (e2e)', () => {
+describe('VideoUploadController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
   let videoRepository: VideoRepository;
+  let contentRepository: ContentRepository;
+  let movieRepository: MovieRepository;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -19,6 +23,8 @@ describe('ContentController (e2e)', () => {
     await app.init();
 
     videoRepository = app.get<VideoRepository>(VideoRepository);
+    contentRepository = app.get<ContentRepository>(ContentRepository);
+    movieRepository = app.get<MovieRepository>(MovieRepository);
   });
 
   beforeEach(async () => {
@@ -34,6 +40,8 @@ describe('ContentController (e2e)', () => {
 
   afterEach(async () => {
     await videoRepository.deleteAll();
+    await movieRepository.deleteAll();
+    await contentRepository.deleteAll();
   });
 
   describe('/content/video (POST)', () => {

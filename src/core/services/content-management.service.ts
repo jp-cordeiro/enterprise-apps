@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ContentEntity, ContentType } from '../entities/content.entity';
-import { MovieEntity } from '../entities/movie.entity';
-import { VideoEntity } from '../entities/video.entity';
-import { ThumbnailEntity } from '../entities/thumbnail.entity';
+import { Content } from '@src/persistence/entities/content.entity';
 import { ContentRepository } from '@src/persistence/repositories/content.repository';
+import { CONTENT_TYPE } from '../enums/content-type.enum';
+import { Movie } from '@src/persistence/entities/movie.entity';
+import { Video } from '@src/persistence/entities/video.entity';
+import { Thumbnail } from '@src/persistence/entities/thumbnail.entity';
 
-export interface CreateContentData {
+export interface CreateMovieData {
   title: string;
   description: string;
   url: string;
@@ -17,26 +18,25 @@ export interface CreateContentData {
 export class ContentManagementService {
   constructor(private readonly contentRepository: ContentRepository) {}
 
-  async createContent(
-    createContentData: CreateContentData,
-  ): Promise<ContentEntity> {
-    const content = ContentEntity.createNew({
-      title: createContentData.title,
-      description: createContentData.description,
-      type: ContentType.MOVIE,
-      media: MovieEntity.createNew({
-        video: VideoEntity.createNew({
-          url: createContentData.url,
-          sizeInKb: createContentData.sizeInKb,
-          duration: 100,
-        }),
-        thumbnail: ThumbnailEntity.createNew({
-          url: createContentData.thumbnailUrl,
+  async createMovie(createMovieData: CreateMovieData): Promise<Content> {
+    const contentEntity = new Content({
+      title: createMovieData.title,
+      description: createMovieData.description,
+      type: CONTENT_TYPE.MOVIE,
+      movie: new Movie({
+        video: new Video({
+          url: createMovieData.url,
+          duration: 10,
+          sizeInKb: createMovieData.sizeInKb,
         }),
       }),
     });
-
-    const createdVideo = await this.contentRepository.create(content);
-    return createdVideo;
+    if (createMovieData.thumbnailUrl) {
+      contentEntity.movie.thumbnail = new Thumbnail({
+        url: createMovieData.thumbnailUrl,
+      });
+    }
+    const content = await this.contentRepository.save(contentEntity);
+    return content;
   }
 }

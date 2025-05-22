@@ -6,12 +6,16 @@ import { rmSync } from 'fs';
 import { ContentManagementService } from '@src/core/services/content-management.service';
 import { randomUUID } from 'crypto';
 import { VideoRepository } from '@src/persistence/repositories/video.repository';
+import { ContentRepository } from '@src/persistence/repositories/content.repository';
+import { MovieRepository } from '@src/persistence/repositories/movie.repository';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
   let module: TestingModule;
   let contentManagementService: ContentManagementService;
   let videoRepository: VideoRepository;
+  let contentRepository: ContentRepository;
+  let movieRepository: MovieRepository;
   const fileSize = 1430145;
 
   beforeAll(async () => {
@@ -26,6 +30,8 @@ describe('ContentController (e2e)', () => {
       ContentManagementService,
     );
     videoRepository = app.get<VideoRepository>(VideoRepository);
+    contentRepository = app.get<ContentRepository>(ContentRepository);
+    movieRepository = app.get<MovieRepository>(MovieRepository);
   });
 
   beforeEach(async () => {
@@ -36,6 +42,8 @@ describe('ContentController (e2e)', () => {
 
   afterEach(async () => {
     await videoRepository.deleteAll();
+    await movieRepository.deleteAll();
+    await contentRepository.deleteAll();
   });
 
   afterAll(async () => {
@@ -45,7 +53,7 @@ describe('ContentController (e2e)', () => {
 
   describe('stream/:videoId', () => {
     it('should stream a video', async () => {
-      const createContent = await contentManagementService.createContent({
+      const createMovie = await contentManagementService.createMovie({
         title: 'Sample Video',
         description: 'This is a sample video.',
         url: './test/fixtures/sample.mp4',
@@ -56,7 +64,7 @@ describe('ContentController (e2e)', () => {
       const range = `bytes=0-${fileSize - 1}`;
 
       const response = await request(app.getHttpServer())
-        .get(`/stream/${createContent.getMedia()?.getVideo()?.getId()}`)
+        .get(`/stream/${createMovie.movie.video.id}`)
         .set('Range', range)
         .expect(HttpStatus.PARTIAL_CONTENT);
 

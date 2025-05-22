@@ -1,13 +1,13 @@
-import { ContentType } from '@src/core/entities/content.entity';
 import { DefaultEntity } from '@src/infra/module/typeorm/entity/default.entity';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { Movie } from './movie.entity';
 import { TvShow } from './tv-show.entity';
+import { CONTENT_TYPE } from '@src/core/enums/content-type.enum';
 
 @Entity({ name: 'content' })
 export class Content extends DefaultEntity<Content> {
-  @Column({ nullable: false, type: 'enum', enum: ContentType })
-  type: ContentType;
+  @Column({ nullable: false, type: 'enum', enum: CONTENT_TYPE })
+  type: CONTENT_TYPE;
 
   @Column({ type: 'varchar', nullable: false })
   title: string;
