@@ -6,6 +6,7 @@ import { rmSync } from 'fs';
 import { VideoRepository } from '@src/persistence/repositories/video.repository';
 import { ContentRepository } from '@src/persistence/repositories/content.repository';
 import { MovieRepository } from '@src/persistence/repositories/movie.repository';
+import nock from 'nock';
 
 describe('VideoUploadController (e2e)', () => {
   let app: INestApplication;
@@ -42,10 +43,55 @@ describe('VideoUploadController (e2e)', () => {
     await videoRepository.deleteAll();
     await movieRepository.deleteAll();
     await contentRepository.deleteAll();
+    nock.cleanAll();
   });
+
+  const searchKeywordNock = (): void => {
+    nock('https://api.themoviedb.org/3', {
+      encodedQueryParams: true,
+      reqheaders: {
+        Authorization: (): boolean => true,
+      },
+    })
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/search/keyword')
+      .query({ query: 'Test Video', page: 1 })
+      .reply(200, {
+        results: [
+          {
+            id: '1',
+          },
+        ],
+      });
+  };
+  const discorverMovieNock = (): void => {
+    nock('https://api.themoviedb.org/3', {
+      encodedQueryParams: true,
+      reqheaders: {
+        Authorization: (): boolean => true,
+      },
+    })
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/discover/movie')
+      .query({ with_keywords: 1 })
+      .reply(200, {
+        results: [
+          {
+            vote_average: 8,
+          },
+        ],
+      });
+  };
 
   describe('/content/video (POST)', () => {
     it('should upload a video ', async () => {
+      searchKeywordNock();
+      discorverMovieNock();
+
       const video = {
         title: 'Test Video',
         description: 'This is a test video',

@@ -8,6 +8,7 @@ import { randomUUID } from 'crypto';
 import { VideoRepository } from '@src/persistence/repositories/video.repository';
 import { ContentRepository } from '@src/persistence/repositories/content.repository';
 import { MovieRepository } from '@src/persistence/repositories/movie.repository';
+import nock from 'nock';
 
 describe('ContentController (e2e)', () => {
   let app: INestApplication;
@@ -44,6 +45,7 @@ describe('ContentController (e2e)', () => {
     await videoRepository.deleteAll();
     await movieRepository.deleteAll();
     await contentRepository.deleteAll();
+    nock.cleanAll();
   });
 
   afterAll(async () => {
@@ -51,10 +53,54 @@ describe('ContentController (e2e)', () => {
     rmSync('./uploads', { recursive: true, force: true });
   });
 
+  const searchKeywordNock = (): void => {
+    nock('https://api.themoviedb.org/3', {
+      encodedQueryParams: true,
+      reqheaders: {
+        Authorization: (): boolean => true,
+      },
+    })
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/search/keyword')
+      .query({ query: 'Test Video', page: 1 })
+      .reply(200, {
+        results: [
+          {
+            id: '1',
+          },
+        ],
+      });
+  };
+  const discorverMovieNock = (): void => {
+    nock('https://api.themoviedb.org/3', {
+      encodedQueryParams: true,
+      reqheaders: {
+        Authorization: (): boolean => true,
+      },
+    })
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/discover/movie')
+      .query({ with_keywords: 1 })
+      .reply(200, {
+        results: [
+          {
+            vote_average: 8,
+          },
+        ],
+      });
+  };
+
   describe('stream/:videoId', () => {
     it('should stream a video', async () => {
+      searchKeywordNock();
+      discorverMovieNock();
+
       const createMovie = await contentManagementService.createMovie({
-        title: 'Sample Video',
+        title: 'Test Video',
         description: 'This is a sample video.',
         url: './test/fixtures/sample.mp4',
         thumbnailUrl: './test/fixtures/sample.jpeg',
