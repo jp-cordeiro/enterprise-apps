@@ -23,6 +23,7 @@
     "outDir": "./dist",
     "paths": {
       "@contentModule/*": ["./src/modules/content/*"],
+      "@shared/*": ["./src/modules/shared/modules/*"],
       "@src/*": ["./src/*"],
       "@resource/*": ["./resource/*"]
     },

@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { TypeOrmPersistenceModule } from '@contentModule/infra/module/typeorm/typeorm-persinstense.module';
+import { TypeOrmPersistenceModule } from '@shared/typeorm/typeorm-persinstense.module';
 import { Content } from './entities/content.entity';
 import { Movie } from './entities/movie.entity';
 import { Thumbnail } from './entities/thumbnail.entity';
