@@ -2,6 +2,7 @@ export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '..',
   moduleNameMapper: {
+    '^@contentModule/(.*)$': '<rootDir>/src/modules/content/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^@database/(.*)$': '<rootDir>/database/$1',
     '^@testInfra/(.*)$': '<testInfra>/src/$1',

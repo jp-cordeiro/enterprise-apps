@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { ConfigServiceApp } from '@src/infra/module/config/services/config.service';
-import { TypeOrmMigrationService } from '@src/infra/module/typeorm/service/typeorm-migration-service';
-import { PersistenceModule } from '@src/persistence/persistence.module';
+import { ConfigServiceApp } from '@contentModule/infra/module/config/services/config.service';
+import { TypeOrmMigrationService } from '@contentModule/infra/module/typeorm/service/typeorm-migration-service';
+import { PersistenceModule } from '@contentModule/persistence/persistence.module';
 import { DataSourceOptions } from 'typeorm';
 import { createPostgresDatabase } from 'typeorm-extension';
 
