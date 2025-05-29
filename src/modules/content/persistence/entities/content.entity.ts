@@ -1,4 +1,4 @@
-import { DefaultEntity } from '@shared/typeorm/entity/default.entity';
+import { DefaultEntity } from '@sharedModules/typeorm/entity/default.entity';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { Movie } from './movie.entity';
 import { TvShow } from './tv-show.entity';

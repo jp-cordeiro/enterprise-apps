@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DefaultTypeOrmRepository } from '@shared/typeorm/repository/default-typeorm.repository';
+import { DefaultTypeOrmRepository } from '@sharedModules/typeorm/repository/default-typeorm.repository';
 import { TvShow } from '../entities/tv-show.entity';
 import { DataSource } from 'typeorm';
 

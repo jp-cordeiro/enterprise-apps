@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DefaultTypeOrmRepository } from '@shared/typeorm/repository/default-typeorm.repository';
+import { DefaultTypeOrmRepository } from '@sharedModules/typeorm/repository/default-typeorm.repository';
 import { Thumbnail } from '../entities/thumbnail.entity';
 import { DataSource } from 'typeorm';
 

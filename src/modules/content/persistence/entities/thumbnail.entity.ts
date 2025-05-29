@@ -1,4 +1,4 @@
-import { DefaultEntity } from '@shared/typeorm/entity/default.entity';
+import { DefaultEntity } from '@sharedModules/typeorm/entity/default.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'thumbnail' })
