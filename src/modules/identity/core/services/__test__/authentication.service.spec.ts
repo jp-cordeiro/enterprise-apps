@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserUnauthorizedException } from '@identityModule/core/exception/user-unauthorized.exception';
-import bcrypt from 'bcrypt';
+import { hashSync } from 'bcrypt';
 import { AuthService } from '../authentication.service';
 import { UserRepository } from '@identityModule/persistence/user.repository';
 import { UserModel } from '@identityModule/core/models/user.model';
@@ -44,7 +44,7 @@ describe('AuthenticationService', () => {
         password: 'testpassword',
       };
       const token = 'testtoken';
-      const encryptedPassword = bcrypt.hashSync(user.password, 10);
+      const encryptedPassword = hashSync(user.password, 10);
       userRepository.findOneBy = jest
         .fn()
         .mockResolvedValue(
