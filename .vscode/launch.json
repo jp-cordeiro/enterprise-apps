@@ -11,7 +11,8 @@
         "--runInBand",
         "--config",
         "./test/jest.e2e.ts",
-        "--detectOpenHandles"
+        "--detectOpenHandles",
+        "--forceExit"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

@@ -23,7 +23,9 @@
     "outDir": "./dist",
     "paths": {
       "@contentModule/*": ["./src/modules/content/*"],
-      "@shared/*": ["./src/modules/shared/modules/*"],
+      "@identityModule/*": ["./src/modules/identity/*"],
+      "@sharedModules/*": ["./src/modules/shared/modules/*"],
+      "@sharedLibs/*": ["./src/modules/shared/*"],
       "@src/*": ["./src/*"],
       "@resource/*": ["./resource/*"]
     },

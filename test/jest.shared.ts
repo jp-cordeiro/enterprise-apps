@@ -3,7 +3,9 @@ export default {
   rootDir: '..',
   moduleNameMapper: {
     '^@contentModule/(.*)$': '<rootDir>/src/modules/content/$1',
-    '^@shared/(.*)$': '<rootDir>/src/modules/shared/modules/$1',
+    '^@identityModule/(.*)$': '<rootDir>/src/modules/identity/$1',
+    '^@sharedModules/(.*)$': '<rootDir>/src/modules/shared/modules/$1',
+    '^@sharedLibs/(.*)$': '<rootDir>/src/modules/shared/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^@database/(.*)$': '<rootDir>/database/$1',
     '^@testInfra/(.*)$': '<testInfra>/src/$1',
