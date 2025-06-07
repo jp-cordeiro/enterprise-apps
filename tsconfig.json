@@ -24,8 +24,10 @@
     "paths": {
       "@contentModule/*": ["./src/modules/content/*"],
       "@identityModule/*": ["./src/modules/identity/*"],
+      "@billingModule/*": ["./src/modules/billing/*"],
       "@sharedModules/*": ["./src/modules/shared/modules/*"],
       "@sharedLibs/*": ["./src/modules/shared/*"],
+      "@testInfra/*": ["./test/*"],
       "@src/*": ["./src/*"],
       "@resource/*": ["./resource/*"]
     },

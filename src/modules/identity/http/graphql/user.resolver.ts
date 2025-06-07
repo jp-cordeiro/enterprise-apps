@@ -1,5 +1,5 @@
 import { UserManagementService } from '@identityModule/core/services/user-management.service';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthenticatedRequest, AuthGuard } from '../guard/auth.guard';
 import { User } from './types/user.type';
@@ -10,6 +10,7 @@ export class UserResolver {
   constructor(private readonly userManagementService: UserManagementService) {}
 
   @Mutation(() => User)
+  @UsePipes(new ValidationPipe())
   async createUser(
     @Args('CreateUserInput') createUserInput: CreateUserInput,
   ): Promise<User> {

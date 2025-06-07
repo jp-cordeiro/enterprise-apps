@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '@sharedModules/prisma/prisma.service';
 import { AppModule } from '@src/app.module';
@@ -90,9 +90,9 @@ describe('UserResolver (e2e)', () => {
             }
           `,
         })
-        .expect(200);
-      expect(response.body.errors[0].message).toBe(
-        `Invalid email: ${createUserInput.email}`,
+        .expect(HttpStatus.OK);
+      expect(response.body.errors[0].extensions.originalError.message[0]).toBe(
+        `email must be an email`,
       );
     });
   });
