@@ -12,6 +12,9 @@ import { ConfigModule } from '@sharedModules/config/config.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PrismaPersistenceModule } from '@sharedModules/prisma/prisma-persistence.module';
+import { DomainIntegrationModule } from '@sharedModules/integration/domain-integration.module';
+import { BillingSubscriptionStatusApi } from '@sharedModules/integration/interfaces/billing-integration.interface';
+import { BillingSubscriptionRepository } from './persistence/external/billing-subscription.repository';
 
 @Module({
   imports: [
@@ -25,13 +28,19 @@ import { PrismaPersistenceModule } from '@sharedModules/prisma/prisma-persistenc
       autoSchemaFile: true,
       driver: ApolloDriver,
     }),
+    DomainIntegrationModule,
   ],
   providers: [
+    {
+      provide: BillingSubscriptionStatusApi,
+      useExisting: BillingSubscriptionRepository,
+    },
     AuthService,
     AuthResolver,
     UserResolver,
     UserManagementService,
     UserRepository,
+    BillingSubscriptionRepository,
   ],
 })
 export class IdentityModule {}
