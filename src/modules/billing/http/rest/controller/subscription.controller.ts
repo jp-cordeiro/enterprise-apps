@@ -11,6 +11,7 @@ import { plainToInstance } from 'class-transformer';
 import { CreateSubscriptionRequestDto } from '../dto/request/create-subscription.dto';
 import { SubscriptionResponseDto } from '../dto/response/subscription-response.dto';
 import { NotFoundDomainException } from '@sharedLibs/core/exception/not-found-domain.exception';
+import { UserSubscriptionActiveResponseDto } from '../dto/response/user-subscription-active-response.dto';
 
 @Controller('subscription')
 export class SubscriptionController {
@@ -51,5 +52,19 @@ export class SubscriptionController {
     return plainToInstance(SubscriptionResponseDto, subscription, {
       excludeExtraneousValues: true,
     });
+  }
+
+  @Get('/user/:userId/active')
+  async isUserSubscriptionActive(
+    userId: string,
+  ): Promise<UserSubscriptionActiveResponseDto> {
+    const isActive = this.subscriptionService.isUserSubscriptionActive(userId);
+    return plainToInstance(
+      UserSubscriptionActiveResponseDto,
+      { isActive },
+      {
+        excludeExtraneousValues: true,
+      },
+    );
   }
 }

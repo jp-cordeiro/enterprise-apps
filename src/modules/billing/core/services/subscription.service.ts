@@ -40,4 +40,9 @@ export class SubscriptionService {
   ): Promise<SubscriptionModel | null> {
     return this.subscriptionRepository.findByUserId(userId);
   }
+
+  async isUserSubscriptionActive(userId: string): Promise<boolean> {
+    const subscription = await this.subscriptionRepository.findByUserId(userId);
+    return subscription?.status === SubscriptionStatus.Active;
+  }
 }
