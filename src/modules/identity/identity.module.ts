@@ -15,6 +15,8 @@ import { PrismaPersistenceModule } from '@sharedModules/prisma/prisma-persistenc
 import { DomainIntegrationModule } from '@sharedModules/integration/domain-integration.module';
 import { BillingSubscriptionStatusApi } from '@sharedModules/integration/interfaces/billing-integration.interface';
 import { BillingSubscriptionRepository } from './persistence/external/billing-subscription.repository';
+import { BillingModule } from '@billingModule/billing.module';
+import { BillingPublicApiProvider } from '@billingModule/provider/public-api.provider';
 
 @Module({
   imports: [
@@ -29,11 +31,12 @@ import { BillingSubscriptionRepository } from './persistence/external/billing-su
       driver: ApolloDriver,
     }),
     DomainIntegrationModule,
+    BillingModule,
   ],
   providers: [
     {
       provide: BillingSubscriptionStatusApi,
-      useExisting: BillingSubscriptionRepository,
+      useExisting: BillingPublicApiProvider,
     },
     AuthService,
     AuthResolver,
