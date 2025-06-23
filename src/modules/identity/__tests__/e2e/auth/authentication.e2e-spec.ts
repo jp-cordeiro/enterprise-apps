@@ -4,7 +4,6 @@ import { IdentityModule } from '@identityModule/identity.module';
 
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@sharedModules/prisma/prisma.service';
 import { Tables } from '@testInfra/enum/table.enum';
 import { planFactory } from '@testInfra/factories/plan.test-factory';
 import { subscriptionFactory } from '@testInfra/factories/subscription.test-factory';
@@ -17,7 +16,6 @@ describe('AuthResolver (e2e)', () => {
   let app: INestApplication;
   let userManagementService: UserManagementService;
   let module: TestingModule;
-  let prismaService: PrismaService;
 
   beforeAll(async () => {
     const nestTestSetup = await createNestApp([IdentityModule]);
@@ -27,16 +25,15 @@ describe('AuthResolver (e2e)', () => {
     userManagementService = module.get<UserManagementService>(
       UserManagementService,
     );
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   beforeEach(async () => {
-    await prismaService.user.deleteMany();
+    await testDbClient(Tables.User).del();
     await testDbClient(Tables.Subscription).del();
     await testDbClient(Tables.Plan).del();
   });
   afterAll(async () => {
-    await prismaService.user.deleteMany();
+    await testDbClient(Tables.User).del();
     await testDbClient(Tables.Subscription).del();
     await testDbClient(Tables.Plan).del();
     await module.close();

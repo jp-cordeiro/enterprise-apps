@@ -5,13 +5,13 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity({ name: 'video' })
 export class Video extends DefaultEntity<Video> {
-  @Column()
+  @Column({ type: 'varchar', nullable: false })
   url: string;
 
-  @Column()
+  @Column('int')
   sizeInKb: number;
 
-  @Column()
+  @Column('int')
   duration: number;
 
   @OneToOne(() => Movie, (movie) => movie.video)

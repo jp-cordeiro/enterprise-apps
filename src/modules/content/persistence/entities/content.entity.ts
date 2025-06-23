@@ -9,15 +9,15 @@ export class Content extends DefaultEntity<Content> {
   @Column({ nullable: false, type: 'enum', enum: CONTENT_TYPE })
   type: CONTENT_TYPE;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'text' })
   description: string;
 
   @OneToOne(() => Movie, (movie) => movie.content, { cascade: true })
   movie: Movie;
 
   @OneToOne(() => TvShow, (tvShow) => tvShow.content, { cascade: true })
-  tvShow?: TvShow;
+  tvShow: TvShow | null;
 }
