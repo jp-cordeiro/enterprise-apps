@@ -20,5 +20,5 @@ export class Movie extends DefaultEntity<Movie> {
 
   @OneToOne(() => Thumbnail, { cascade: true })
   @JoinColumn()
-  thumbnail: Thumbnail;
+  thumbnail: Thumbnail | null;
 }

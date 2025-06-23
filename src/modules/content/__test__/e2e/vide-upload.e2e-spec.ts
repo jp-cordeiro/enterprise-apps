@@ -87,7 +87,7 @@ describe('VideoUploadController (e2e)', () => {
       });
   };
 
-  describe('/content/video (POST)', () => {
+  describe('/admin/movie (POST)', () => {
     it('should upload a video ', async () => {
       searchKeywordNock();
       discorverMovieNock();
@@ -99,7 +99,7 @@ describe('VideoUploadController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/content/video ')
+        .post('/admin/movie ')
         .attach('video', './test/fixtures/sample.mp4')
         .attach('thumbnail', './test/fixtures/sample.jpeg')
         .field('title', video.title)
@@ -122,7 +122,7 @@ describe('VideoUploadController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/content/video ')
+        .post('/admin/movie ')
         .attach('video', './test/fixtures/sample.mp4')
         .field('title', video.title)
         .field('description', video.description)
@@ -144,7 +144,7 @@ describe('VideoUploadController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/content/video ')
+        .post('/admin/movie ')
         .attach('video', './test/fixtures/sample.mp3')
         .attach('thumbnail', './test/fixtures/sample.jpeg')
         .field('title', video.title)
